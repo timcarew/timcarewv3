@@ -1,7 +1,21 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <Head>
+        <title>Tim Carew | Web Developer</title>
+        <meta
+          name="description"
+          content="Tim Carew's Web Development Portfolio"
+        />
+        <link rel="icon" href="/favicon.png" />
+        <link rel="stylesheet" href="https://use.typekit.net/wlm2scr.css" />
+      </Head>
+      <Component {...pageProps} />
+    </>
+  );
 }
 
-export default MyApp
+export default MyApp;
