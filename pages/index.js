@@ -3,13 +3,23 @@ import { work } from "../public/work";
 
 import React, { useState } from "react";
 import gsap from "gsap";
+import ScrollToPlugin from "gsap/dist/ScrollToPlugin";
 import { InView } from "react-intersection-observer";
 
 import Work from "../components/Work";
 
+gsap.registerPlugin(ScrollToPlugin);
+
 export default function Home() {
   const [heroAnimated, setHeroAnimated] = useState(false);
   const heroTL = gsap.timeline();
+  const handleLearnButtonClick = () => {
+    gsap.to(window, {
+      duration: 1,
+      scrollTo: "#work",
+      ease: "power3.out",
+    });
+  };
   return (
     <div className="Container">
       <InView
@@ -35,7 +45,25 @@ export default function Home() {
                     y: 50,
                     ease: "power1.out",
                   },
-                  1.5
+                  1.25
+                )
+                .from(
+                  ".HeroButtons",
+                  {
+                    duration: 0.75,
+                    autoAlpha: 0,
+                    ease: "power1.out",
+                  },
+                  2.5
+                )
+                .to(
+                  ".Headshot",
+                  {
+                    duration: 0.75,
+                    opacity: 0.5,
+                    ease: "power1.out",
+                  },
+                  2.5
                 );
             }
             setHeroAnimated(true);
@@ -48,15 +76,29 @@ export default function Home() {
             <p className="HeroSlogan">
               There's never been a better time to be a website.
             </p>
+            <div className="HeroButtons">
+              <a onClick={handleLearnButtonClick} className="HeroButton">
+                <h6>Learn why</h6>
+              </a>
+              <a className="HeroButtonEmail">
+                <a className="HeroEmail" href="mailto:mail@timcarew.com">
+                  <h6>mail@timcarew.com</h6>
+                </a>
+              </a>
+            </div>
+            <img
+              className="Headshot"
+              src="/img/me.png"
+              alt="Photo of me, Tim Carew. I'm bald and have a big beard."
+            />
           </div>
-          <div className="Work">
+          <div className="Work" id="work">
             {work.map((item, index) => {
               return <Work item={item} index={index} key={`Work${index}`} />;
             })}
           </div>
         </main>
       </InView>
-
       <footer className="Footer"></footer>
       <style jsx>{`
         .Container {
@@ -68,6 +110,7 @@ export default function Home() {
           background-color: ${vars.colors.white};
         }
         .Hero {
+          position: relative;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -80,8 +123,70 @@ export default function Home() {
         }
         .HeroSlogan {
           padding: calc(${vars.spacing.paddingy} / 2) 0;
-          font-weight: 400;
+          font-weight: 300;
           visibility: hidden;
+        }
+        .HeroButtons {
+          padding-top: 10px;
+          display: flex;
+          visibility: hidden;
+        }
+        .HeroButton {
+          color: ${vars.colors.blue};
+          font-family: inherit;
+          font-weight: 400 !important;
+          padding: calc(${vars.spacing.paddingy} / 3)
+            calc(${vars.spacing.paddingx} / 2);
+          margin-right: calc(${vars.spacing.paddingx} / 2);
+          border: 1px solid ${vars.colors.blue};
+          border-radius: 99em;
+          background: transparent;
+          cursor: pointer;
+          transition: all 0.5s ease;
+        }
+        .HeroButtonEmail {
+          display: flex;
+          align-items: center;
+          position: relative;
+          color: ${vars.colors.blue};
+          font-family: inherit;
+          font-weight: 400 !important;
+          padding: calc(${vars.spacing.paddingy} / 3)
+            calc(${vars.spacing.paddingx} / 4);
+          border: none;
+          cursor: pointer;
+          transition: all 0.5s ease;
+        }
+        .HeroButtonEmail:before {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 2px;
+          background: ${vars.colors.blue};
+          left: 0;
+          bottom: 0;
+          transition: width 0.3s ease-out;
+        }
+        .HeroButtonEmail:hover:before {
+          width: 100%;
+        }
+        .HeroButton:hover {
+          color: ${vars.colors.white};
+          background-color: ${vars.colors.blue};
+        }
+        .Headshot {
+          position: absolute;
+          top: 0;
+          right: 0;
+          margin-top: 50px;
+          height: auto;
+          width: 10%;
+          opacity: 0;
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+        .Headshot:hover {
+          opacity: 1 !important;
         }
         .Work {
           display: flex;
