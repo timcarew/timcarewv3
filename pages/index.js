@@ -64,6 +64,15 @@ export default function Home() {
                     ease: "power1.out",
                   },
                   2.5
+                )
+                .from(
+                  ".WorkSlogan",
+                  {
+                    duration: 1.5,
+                    autoAlpha: 0,
+                    ease: "power1.out",
+                  },
+                  5
                 );
             }
             setHeroAnimated(true);
@@ -93,8 +102,16 @@ export default function Home() {
             />
           </div>
           <div className="Work" id="work">
+            <h2 className="WorkSlogan">It speaks for itself.</h2>
             {work.map((item, index) => {
-              return <Work item={item} index={index} key={`Work${index}`} />;
+              return (
+                <Work
+                  item={item}
+                  index={index}
+                  key={`Work${index}`}
+                  left={index % 2 == 0}
+                />
+              );
             })}
           </div>
         </main>
@@ -118,12 +135,13 @@ export default function Home() {
           min-height: 80vh;
         }
         .HeroName {
-          font-weight: 500;
+          font-weight: 600;
           visibility: hidden;
         }
         .HeroSlogan {
           padding: calc(${vars.spacing.paddingy} / 2) 0;
           font-weight: 300;
+          text-align: center;
           visibility: hidden;
         }
         .HeroButtons {
@@ -178,9 +196,10 @@ export default function Home() {
           position: absolute;
           top: 0;
           right: 0;
-          margin-top: 50px;
+          margin-top: ${vars.spacing.paddingy};
           height: auto;
           width: 10%;
+          min-width: 75px;
           opacity: 0;
           transition: all 0.3s ease;
           cursor: pointer;
@@ -194,8 +213,19 @@ export default function Home() {
           align-items: center;
           padding-top: ${vars.spacing.paddingy};
           min-height: 50vh;
+          margin: 0 auto;
           width: calc(100vw - ${vars.spacing.paddingx});
           background-color: ${vars.colors.grey};
+        }
+        .WorkSlogan {
+          visibility: hidden;
+          font-weight: 500;
+        }
+        @media (orientation: portrait) {
+          .Hero {
+            width: 90%;
+            margin: 0 auto;
+          }
         }
       `}</style>
     </div>

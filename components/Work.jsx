@@ -3,13 +3,13 @@ import gsap from "gsap";
 import { InView } from "react-intersection-observer";
 import { vars } from "../public/vars";
 
-export default function Work({ item, index }) {
+export default function Work({ left, item, index }) {
   const { author, authorURL, name, description, fileName, url } = item;
   const [animated, setAnimated] = useState(false);
   const workTL = gsap.timeline();
   return (
     <InView
-      style={{ width: "100%" }}
+      style={{ width: "100%", margin: `${vars.spacing.paddingy} 0` }}
       threshold={0.3}
       onChange={(inView) => {
         if (inView) {
@@ -40,12 +40,12 @@ export default function Work({ item, index }) {
         }
       }}
     >
-      <div className="WorkItem" id={`WorkItem${index}`}>
+      <a className="WorkItem" id={`WorkItem${index}`} href={url}>
         <div className="WorkDetails" id={`WorkDetails${index}`}>
           <a href={url} target="_blank">
             <h2>{name}</h2>
           </a>
-          <p>{description}</p>
+          <p className="Description">{description}</p>
           <a href={authorURL} target="_blank">
             <h6>
               <em>- {author}</em>
@@ -58,32 +58,38 @@ export default function Work({ item, index }) {
           className="WorkItemImage"
           id={`WorkImage${index}`}
         />
-      </div>
+      </a>
       <style jsx>{`
         .WorkItem {
           position: relative;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: ${vars.spacing.paddingy} ${vars.spacing.paddingx};
-          margin: ${vars.spacing.paddingy} 0;
+          padding: calc(${vars.spacing.paddingy}*3) ${vars.spacing.paddingx};
           min-height: 500px;
           width: 100%;
           margin: 0 auto;
           color: ${vars.colors.white};
+          cursor: pointer;
         }
         .WorkDetails {
           position: absolute;
-          top: 60%;
-          left: ${vars.spacing.paddingx};
+          bottom: 0%;
+          left: ${left ? vars.spacing.paddingx : ""};
+          right: ${left ? "" : vars.spacing.paddingx};
           width: 50%;
           padding: calc(${vars.spacing.paddingx} / 2);
-          background-color: ${vars.colors.blue};
+          background-color: rgba(29, 29, 31, 0.9);
+          border-radius: 5px;
           line-height: 1.4;
           z-index: 2;
         }
+        .Description {
+          font-weight: 300;
+          padding: calc(${vars.spacing.paddingy} / 4) 0;
+        }
         .WorkDetails a {
-          font-weight: 500;
+          font-weight: 300;
         }
         .WorkDetails a:hover {
           text-decoration: underline;
@@ -91,12 +97,29 @@ export default function Work({ item, index }) {
         .WorkItemImage {
           height: auto;
           width: 80%;
-          margin-left: auto;
+          margin-left: ${left ? "auto" : ""};
+          margin-right: ${left ? "" : "auto"};
           visibility: hidden;
           z-index: 1;
         }
         .WorkItemImage:hover .WorkDetails {
           left: -50%;
+        }
+        @media (orientation: portrait) {
+          .WorkItem {
+            flex-direction: column;
+            padding: 5px;
+          }
+          .WorkDetails {
+            position: unset;
+            width: 100%;
+            order: 1;
+            border-radius: 0;
+          }
+          .WorkItemImage {
+            width: 100%;
+            margin: 0 auto;
+          }
         }
       `}</style>
     </InView>
