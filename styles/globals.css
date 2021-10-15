@@ -29,6 +29,14 @@ h2 {
   font-size: calc(1.2rem + 2vw);
 }
 
+h3 {
+  font-size: calc(1.2rem + 1.25vw);
+}
+
+h4 {
+  font-size: calc(1.2rem + 0.55vw);
+}
+
 h6 {
   font-size: calc(1.2rem + 0.25vw);
   font-weight: unset;
