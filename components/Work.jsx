@@ -7,17 +7,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Work({ left, item, index }) {
   const { author, authorURL, name, description, fileName, url } = item;
-  const tl = useRef();
-  useEffect(() => {
-    tl.current = gsap.timeline().from(`#WorkImage${index}`, {
-      duration: 2,
-      y: 200,
-      scrollTrigger: {
-        trigger: `#WorkImage${index}`,
-        scrub: true,
-      },
-    });
-  }, []);
   return (
     <div className="WorkItem" id={`WorkItem${index}`}>
       <div className="WorkDetails" id={`WorkDetails${index}`}>
@@ -43,16 +32,16 @@ export default function Work({ left, item, index }) {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: calc(${vars.spacing.paddingy}*2) ${vars.spacing.paddingx};
+          padding: calc(${vars.spacing.paddingy}) ${vars.spacing.paddingx};
+          margin: calc(${vars.spacing.paddingy}*2) 0;
           min-height: 500px;
           width: 100%;
-          margin: 0 auto;
           color: ${vars.colors.white};
           cursor: pointer;
         }
         .WorkDetails {
           position: absolute;
-          bottom: 0%;
+          bottom: 0;
           left: ${left ? vars.spacing.paddingx : ""};
           right: ${left ? "" : vars.spacing.paddingx};
           width: 40%;

@@ -14,6 +14,55 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Home() {
   const heroTL = gsap.timeline();
   useEffect(() => {
+    const pillars = gsap.utils.toArray(".Pillar");
+    pillars.forEach((pillar, index) => {
+      heroTL.from(pillar, {
+        duration: 10,
+        x: 50 * index + 1,
+        autoAlpha: 1 / (index + 2),
+        scrollTrigger: {
+          trigger: "#pillars",
+          start: "top 10%",
+          end: "bottom -20%",
+          pin: true,
+          pinSpacing: true,
+          toggleActions: "restart none none none",
+          scrub: 1,
+        },
+        ease: "power4.out",
+      });
+    });
+    const workItems = gsap.utils.toArray(".WorkItem");
+    workItems.forEach((workItem, index) => {
+      heroTL
+        .from(workItem, {
+          duration: 10,
+          x: index % 2 == 0 ? -200 : 200,
+          autoAlpha: 0,
+          scrollTrigger: {
+            trigger: `#WorkItem${index}`,
+            start: "top 50%",
+            end: "top 100%",
+            pin: true,
+            markers: true,
+            toggleActions: "restart none none none",
+            scrub: 3,
+          },
+          ease: "power1.out",
+        })
+        .from(`#WorkDetails${index}`, {
+          duration: 2,
+          y: 100,
+          scrollTrigger: {
+            trigger: `#WorkItem${index}`,
+            start: "top 60%",
+            end: "bottom 60%",
+            markers: true,
+            toggleActions: "restart none none none",
+            scrub: 3,
+          },
+        });
+    });
     heroTL
       .from(
         ".HeroName",
@@ -51,6 +100,45 @@ export default function Home() {
           ease: "power1.out",
         },
         2.5
+      )
+      .from(
+        "#pillar1",
+        {
+          duration: 0.5,
+          y: 100,
+          scrollTrigger: {
+            trigger: "#pillar1",
+            top: "-100%",
+            scrub: true,
+          },
+        },
+        0
+      )
+      .from(
+        "#pillar2",
+        {
+          duration: 0.5,
+          y: 100,
+          scrollTrigger: {
+            trigger: "#pillar2",
+            top: "-100%",
+            scrub: true,
+          },
+        },
+        0
+      )
+      .from(
+        "#pillar3",
+        {
+          duration: 0.5,
+          y: 100,
+          scrollTrigger: {
+            trigger: "#pillar3",
+            top: "-100%",
+            scrub: true,
+          },
+        },
+        0
       );
   }, []);
   const handleLearnButtonClick = () => {
@@ -176,6 +264,47 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <div className="Pillars" id="pillars">
+          <div className="Pillar" id="pillar1">
+            <div className="PillarImage" id="pillarimage1"></div>
+            <div className="PillarInfo" id="pillarinfo1">
+              <h3 className="PillarHeadline">Look ma, all hands!</h3>
+              <h4 className="PillarDescription">
+                On small screens in landscape, boardroom projectors, and
+                everything in between. Websites should always serve their
+                purpose and audience through responsive design and top notch
+                accessiblity standards.
+              </h4>
+            </div>
+          </div>
+          <div className="Pillar" id="pillar2">
+            <div className="PillarImage" id="pillarimage2"></div>
+            <div className="PillarInfo" id="pillarinfo2">
+              <h3 className="PillarHeadline">
+                Putting the 'sight' in Website.
+              </h3>
+              <h4 className="PillarDescription">
+                A Sketch document, Photoshop document, scribble on the back of a
+                napkin, you name it. If you can put your idea down, I can spin
+                it up. If you can't put it down, well, let's try anyway.
+              </h4>
+            </div>
+          </div>
+          <div className="Pillar" id="pillar3">
+            <div className="PillarImage" id="pillarimage3"></div>
+            <div className="PillarInfo" id="pillarinfo3">
+              <h3 className="PillarHeadline">
+                Framework - makes the dream work.
+              </h3>
+              <h4 className="PillarDescription">
+                Creating the websites of tomorrow requires technology from the
+                future. So I went there to steal it. Turns out it's the latest
+                version of ${`{BEST_FRAMEWORK}`}. So that was a waste of a
+                perfectly good flux capacitor.
+              </h4>
+            </div>
+          </div>
+        </div>
         <div className="Work" id="work">
           <h2 className="WorkSlogan">It speaks for itself.</h2>
           {work.map((item, index) => {
@@ -228,7 +357,7 @@ export default function Home() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          min-height: 80vh;
+          min-height: 60vh;
           width: 100%;
         }
         .HeroName {
@@ -300,6 +429,7 @@ export default function Home() {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          overflow-x: hidden;
           top: ${vars.spacing.paddingy};
           right: 0;
           height: 20vw;
@@ -329,15 +459,72 @@ export default function Home() {
         .HeadshotLinks:hover {
           opacity: 1;
         }
+        .Pillars {
+          display: flex;
+          justify-content: space-between;
+          padding: calc(${vars.spacing.paddingy} / 2)
+            calc(${vars.spacing.paddingx} / 2);
+          background-color: ${vars.colors.grey2};
+        }
+        .Pillar {
+          display: flex;
+          flex-direction: column;
+          width: 35vw;
+          padding: ${vars.spacing.paddingy} ${vars.spacing.paddingx};
+        }
+        .PillarImage {
+          height: 25vh;
+          background-size: cover;
+          background-repeat: no-repeat;
+          border-radius: 20px 20px 0 0;
+        }
+        .PillarInfo {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          color: ${vars.colors.black};
+          background-color: ${vars.colors.grey};
+          padding: ${vars.spacing.paddingy} calc(${vars.spacing.paddingx} / 4);
+          border-radius: 0 0 20px 20px;
+          flex: 1 1 0px;
+        }
+        .PillarHeadline {
+          text-align: center;
+        }
+        .PillarDescription {
+          text-align: center;
+          letter-spacing: 0.007em;
+          padding: ${vars.spacing.paddingy} calc(${vars.spacing.paddingx} / 3);
+          padding-bottom: 0;
+          line-height: 1.4;
+        }
+        #pillarimage1 {
+          background-image: url("/img/allhands.jpg");
+        }
+        #pillarimage2 {
+          background-image: url("/img/sight.jpg");
+        }
+        #pillarimage3 {
+          background-image: url("/img/framework.jpg");
+        }
+        #pillarinfo1 {
+          background-color: #e8c0de;
+        }
+        #pillarinfo2 {
+          background-color: #d2e0b3;
+        }
+        #pillarinfo3 {
+          background-color: #d9f0fe;
+        }
         .Work {
           display: flex;
           flex-direction: column;
           padding: 0 10%;
           padding-top: ${vars.spacing.paddingy};
-          min-height: 50vh;
           margin: 0 auto;
-          width: 100vw;
-          background-color: ${vars.colors.grey2};
+          overflow-y: hidden;
+          background-color: ${vars.colors.grey};
         }
         .WorkSlogan {
           text-align: center;
