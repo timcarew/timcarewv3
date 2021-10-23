@@ -2,4 +2,4 @@
 
 ### React (Next.js) and GSAP. No other deps 😄
 
-[https://timcarew.com](timcarew.com)
+[timcarew.com](https://timcarew.com)
