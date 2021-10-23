@@ -19,6 +19,9 @@ export default function Work({ left, item, index }) {
             <em>- {author}</em>
           </h6>
         </a>
+        <button href={url} target="_blank" className="HeroButton">
+          <h6>Learn more</h6>
+        </button>
       </div>
       <img
         src={`/img/${fileName}`}
@@ -37,7 +40,6 @@ export default function Work({ left, item, index }) {
           min-height: 500px;
           width: 100%;
           color: ${vars.colors.white};
-          cursor: pointer;
         }
         .WorkDetails {
           position: absolute;
@@ -64,6 +66,24 @@ export default function Work({ left, item, index }) {
         .WorkDetails a:hover {
           text-decoration: underline;
         }
+        .HeroButton {
+          color: ${vars.colors.blue};
+          font-family: inherit;
+          font-weight: 400 !important;
+          margin-top: calc(${vars.spacing.paddingy} / 4);
+          padding: calc(${vars.spacing.paddingy} / 4)
+            calc(${vars.spacing.paddingx} / 3);
+          border: 1px solid ${vars.colors.blue};
+          border-radius: 99em;
+          background: transparent;
+          box-shadow: 2px 2px 15px rgba(0, 101, 204, 0);
+          cursor: pointer;
+          transition: all 0.5s ease;
+        }
+        .HeroButton:hover {
+          color: ${vars.colors.white};
+          background-color: ${vars.colors.blue};
+        }
         .WorkItemImage {
           height: auto;
           width: 90%;
@@ -77,11 +97,12 @@ export default function Work({ left, item, index }) {
         @media (orientation: portrait) {
           .WorkItem {
             flex-direction: column;
+            justify-content: center;
             padding: 5px;
           }
           .WorkDetails {
             position: unset;
-            width: 80%;
+            width: 100%;
             order: 1;
             border-radius: 5px;
           }

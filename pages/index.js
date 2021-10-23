@@ -14,22 +14,23 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Home() {
   const heroTL = gsap.timeline();
   useEffect(() => {
+    const portrait = window.innerHeight > window.innerWidth;
     const pillars = gsap.utils.toArray(".Pillar");
     pillars.forEach((pillar, index) => {
       heroTL.from(pillar, {
-        duration: 10,
-        x: 50 * index + 1,
-        autoAlpha: 1 / (index + 2),
+        duration: 1,
+        x: portrait ? "0" : 75 * index + 1,
+        autoAlpha: portrait ? 0.5 : 0.25,
         scrollTrigger: {
           trigger: "#pillars",
           start: "top 10%",
           end: "bottom -20%",
-          pin: true,
-          pinSpacing: true,
+          pin: !portrait,
+          pinSpacing: !portrait,
           toggleActions: "restart none none none",
-          scrub: 1,
+          scrub: true,
         },
-        ease: "power4.out",
+        ease: "power3.out",
       });
     });
     const workItems = gsap.utils.toArray(".WorkItem");
@@ -44,9 +45,8 @@ export default function Home() {
             start: "top 50%",
             end: "top 100%",
             pin: true,
-            markers: true,
             toggleActions: "restart none none none",
-            scrub: 3,
+            scrub: 4,
           },
           ease: "power1.out",
         })
@@ -57,7 +57,6 @@ export default function Home() {
             trigger: `#WorkItem${index}`,
             start: "top 60%",
             end: "bottom 60%",
-            markers: true,
             toggleActions: "restart none none none",
             scrub: 3,
           },
@@ -194,6 +193,13 @@ export default function Home() {
         0
       );
   };
+  const handleArrowUpClick = () => {
+    gsap.to(window, {
+      duration: 1,
+      scrollTo: 0,
+      ease: "power1.out",
+    });
+  };
   return (
     <div className="Container">
       <header className="Header">
@@ -319,7 +325,23 @@ export default function Home() {
           })}
         </div>
       </main>
-      <footer className="Footer"></footer>
+      <footer className="Footer">
+        <p>
+          Send me an{" "}
+          <a className="Link" href="mailto:mail@timcarew.com">
+            email
+          </a>
+          .
+        </p>
+        <img
+          onClick={handleArrowUpClick}
+          src="/img/arrowup.svg"
+          alt="Back to Top."
+          className="ArrowUp"
+          height="32"
+          width="32"
+        />
+      </footer>
       <style jsx>{`
         .Container {
           min-height: 100vh;
@@ -429,7 +451,7 @@ export default function Home() {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          overflow-x: hidden;
+          overflow: hidden;
           top: ${vars.spacing.paddingy};
           right: 0;
           height: 20vw;
@@ -493,7 +515,7 @@ export default function Home() {
           text-align: center;
         }
         .PillarDescription {
-          text-align: center;
+          text-align: left;
           letter-spacing: 0.007em;
           padding: ${vars.spacing.paddingy} calc(${vars.spacing.paddingx} / 3);
           padding-bottom: 0;
@@ -509,19 +531,19 @@ export default function Home() {
           background-image: url("/img/framework.jpg");
         }
         #pillarinfo1 {
-          background-color: #e8c0de;
+          background-color: ${vars.colors.pillar1};
         }
         #pillarinfo2 {
-          background-color: #d2e0b3;
+          background-color: ${vars.colors.pillar2};
         }
         #pillarinfo3 {
-          background-color: #d9f0fe;
+          background-color: ${vars.colors.pillar3};
         }
         .Work {
           display: flex;
           flex-direction: column;
           padding: 0 10%;
-          padding-top: ${vars.spacing.paddingy};
+          padding: ${vars.spacing.paddingy};
           margin: 0 auto;
           overflow-y: hidden;
           background-color: ${vars.colors.grey};
@@ -530,10 +552,27 @@ export default function Home() {
           text-align: center;
           font-weight: 500;
         }
+        .Footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: ${vars.spacing.paddingy} ${vars.spacing.paddingx};
+        }
+        .ArrowUp {
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
         @media (orientation: portrait) {
           .Hero {
             width: 90%;
             margin: 0 auto;
+          }
+          .Pillars {
+            flex-direction: column;
+            align-items: center;
+          }
+          .Pillar {
+            width: 90%;
           }
         }
       `}</style>
