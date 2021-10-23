@@ -7,6 +7,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Work({ left, item, index }) {
   const { author, authorURL, name, description, fileName, url } = item;
+  const handleWorkClick = () => {
+    window.open(url);
+  };
   return (
     <div className="WorkItem" id={`WorkItem${index}`}>
       <div className="WorkDetails" id={`WorkDetails${index}`}>
@@ -19,7 +22,11 @@ export default function Work({ left, item, index }) {
             <em>- {author}</em>
           </h6>
         </a>
-        <button href={url} target="_blank" className="HeroButton">
+        <button
+          onClick={handleWorkClick}
+          target="_blank"
+          className="HeroButton"
+        >
           <h6>Learn more</h6>
         </button>
       </div>

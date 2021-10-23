@@ -141,57 +141,67 @@ export default function Home() {
       );
   }, []);
   const handleLearnButtonClick = () => {
+    const portrait = window.innerHeight > window.innerWidth;
     gsap.to(window, {
       duration: 1,
-      scrollTo: "#work",
+      scrollTo: {
+        y: "#pillars",
+        offsetY: portrait ? 0 : -250,
+      },
       ease: "power3.out",
     });
   };
   const handleHeadshotEnter = () => {
-    let enterTL = gsap.timeline();
-    enterTL
-      .to(
-        ".Header",
-        {
-          duration: 0.75,
-          marginLeft: "0%",
-          ease: "power2.in",
-        },
-        0
-      )
-      .to(
-        ".HeadshotLinks",
-        {
-          duration: 0.75,
-          autoAlpha: 1,
-          marginLeft: "0",
-          ease: "power2.out",
-        },
-        0
-      );
+    const portrait = window.innerHeight > window.innerWidth;
+    if (!portrait) {
+      let enterTL = gsap.timeline();
+      enterTL
+        .to(
+          ".Header",
+          {
+            duration: 0.75,
+            marginLeft: "0%",
+            ease: "power2.in",
+          },
+          0
+        )
+        .to(
+          ".HeadshotLinks",
+          {
+            duration: 0.75,
+            autoAlpha: 1,
+            marginLeft: "0",
+            ease: "power2.out",
+          },
+          0
+        );
+    }
   };
   const handleHeadshotLeave = () => {
-    let leaveTL = gsap.timeline();
-    leaveTL
-      .to(
-        ".Header",
-        {
-          duration: 0.75,
-          marginLeft: "-100%",
-          ease: "power2.out",
-        },
-        0
-      )
-      .to(
-        ".HeadshotLinks",
-        {
-          duration: 0.75,
-          autoAlpha: 0,
-          marginLeft: "200%",
-          ease: "power2.out",
-        },
-        0
-      );
+    const portrait = window.innerHeight > window.innerWidth;
+    if (!portrait) {
+      let leaveTL = gsap.timeline();
+      leaveTL
+        .to(
+          ".Header",
+          {
+            duration: 0.75,
+            marginLeft: "-100%",
+            ease: "power2.out",
+          },
+          0
+        )
+        .to(
+          ".HeadshotLinks",
+          {
+            duration: 0.75,
+            autoAlpha: 0,
+            marginLeft: "200%",
+            ease: "power2.out",
+          },
+          0
+        );
+    }
   };
   const handleArrowUpClick = () => {
     gsap.to(window, {
