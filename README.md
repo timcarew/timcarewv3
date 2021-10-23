@@ -1,3 +1,3 @@
 # Tim Carew V3
 
-My portfolio.
+### React (Next.js) and GSAP. No other deps 😄
