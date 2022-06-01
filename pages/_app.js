@@ -10,6 +10,7 @@ function MyApp({ Component, pageProps }) {
           name="description"
           content="Tim Carew's Web Development Portfolio"
         />
+        <meta property="og:image" content="/meta-tim.jpg" />
         <link rel="icon" href="/favicon.png" />
         <link rel="stylesheet" href="https://use.typekit.net/wlm2scr.css" />
       </Head>
